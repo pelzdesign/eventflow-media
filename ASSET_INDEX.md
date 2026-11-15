@@ -171,8 +171,8 @@ Assign each numeric group to one product or template here before registering its
 |---|---|---|---|
 | `000000` | Shared library | Reserved | Materials not belonging to one specific product/template |
 
-No product/template groups have been assigned yet.
+No product/template groups have been assigned yet. The restored New Year fairytale scenario is a documentation brief, not a registered media asset; assign a product/template group when the first actual reference or reusable media file is registered.
 
 ## 8. Index
 
-No materials have been registered yet.
+No binary visual references or reusable media files have been registered yet. The New Year fairytale scenario brief is documented at `references/products/new-year/fairytale/NEW_YEAR_STORY_SCENARIO.md`; it is a product-direction document, not a media asset record.
