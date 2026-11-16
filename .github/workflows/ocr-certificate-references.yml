@@ -119,8 +119,8 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A references/products/certificates/OCR_EXTRACTION.md references/products/certificates/.ocr-run-request.md
+          git add -A references/products/certificates/
           if ! git diff --cached --quiet; then
-            git commit -m "Add OCR extraction for certificate references"
+            git commit -m "Export visual contact sheet for certificate references"
             git push origin "HEAD:${TARGET_BRANCH}"
           fi
