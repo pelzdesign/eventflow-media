@@ -71,6 +71,7 @@ jobs:
             exit 1
           fi
           echo "Processed $count image(s)."
+          rm -f "$target/.ocr-run-request.md"
 
       - name: Commit extracted text to this branch
         env:
@@ -79,7 +80,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add references/products/certificates/OCR_EXTRACTION.md
+          git add -A references/products/certificates/OCR_EXTRACTION.md references/products/certificates/.ocr-run-request.md
           if ! git diff --cached --quiet; then
             git commit -m "Add OCR extraction for certificate references"
             git push origin "HEAD:${GITHUB_REF_NAME}"
