@@ -7,6 +7,7 @@ on:
       - chore/certificate-reference-ocr
     paths:
       - ".github/workflows/ocr-certificate-references.yml"
+      - ".run-visual-export"
       - "references/products/certificates/*.jpg"
       - "references/products/certificates/*.jpeg"
       - "references/products/certificates/*.png"
@@ -108,6 +109,7 @@ jobs:
           print(Path("/tmp/contact-sheet-info.txt").read_text())
           PY
           cp /tmp/contact-sheet-base64.txt references/products/certificates/VISUAL_CONTACT_SHEET_BASE64.txt
+          rm -f .run-visual-export
 
       - name: Commit extracted text to this branch
         env:
