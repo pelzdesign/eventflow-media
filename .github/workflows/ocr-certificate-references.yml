@@ -37,7 +37,7 @@ jobs:
       - name: Install free OCR engine and language data
         run: |
           sudo apt-get update
-          sudo apt-get install --yes tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng python3-pil
+          sudo apt-get install --yes python3-pil
 
       - name: Extract text from certificate reference images
         if: false # Temporarily skip OCR during visual-access experiment
