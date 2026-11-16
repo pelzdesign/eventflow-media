@@ -1,0 +1,86 @@
+name: OCR certificate references
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - chore/certificate-reference-ocr
+    paths:
+      - "references/products/certificates/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: certificate-reference-ocr
+  cancel-in-progress: false
+
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out media library
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Install free OCR engine and language data
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
+
+      - name: Extract text from certificate reference images
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="references/products/certificates"
+          output="$target/OCR_EXTRACTION.md"
+          temp="$(mktemp)"
+          trap 'rm -f "$temp"' EXIT
+
+          {
+            echo "# OCR extraction — certificate reference materials"
+            echo
+            echo "- Generated: $(date -u +%F) (UTC)"
+            echo "- Engine: Tesseract OCR"
+            echo "- Languages: Russian + English"
+            echo "- Source: original image files in this folder"
+            echo "- Note: OCR is an aid to analysis; verify ambiguous names, numbers and punctuation against the original image."
+            echo
+          } > "$output"
+
+          count=0
+          while IFS= read -r -d '' file; do
+            count=$((count + 1))
+            printf '## %s\n\n' "$(basename "$file")" >> "$output"
+            if tesseract "$file" stdout -l rus+eng --psm 11 2>/dev/null > "$temp"; then
+              if [ -s "$temp" ]; then
+                cat "$temp" >> "$output"
+              else
+                echo "_No readable text detected._" >> "$output"
+              fi
+            else
+              echo "_OCR could not process this image._" >> "$output"
+            fi
+            printf '\n\n' >> "$output"
+          done < <(find "$target" -maxdepth 1 -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) -print0 | sort -z)
+
+          if [ "$count" -eq 0 ]; then
+            echo "No source images found in $target" >&2
+            exit 1
+          fi
+          echo "Processed $count image(s)."
+
+      - name: Commit extracted text to this branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add references/products/certificates/OCR_EXTRACTION.md
+          if ! git diff --cached --quiet; then
+            git commit -m "Add OCR extraction for certificate references"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
