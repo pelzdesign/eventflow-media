@@ -6,7 +6,10 @@ on:
     branches:
       - chore/certificate-reference-ocr
     paths:
-      - "references/products/certificates/**"
+      - ".github/workflows/ocr-certificate-references.yml"
+      - "references/products/certificates/*.jpg"
+      - "references/products/certificates/*.jpeg"
+      - "references/products/certificates/*.png"
   pull_request:
     branches:
       - main
@@ -33,7 +36,7 @@ jobs:
       - name: Install free OCR engine and language data
         run: |
           sudo apt-get update
-          sudo apt-get install --yes tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
+          sudo apt-get install --yes tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng python3-pil
 
       - name: Extract text from certificate reference images
         shell: bash
@@ -77,6 +80,34 @@ jobs:
           fi
           echo "Processed $count image(s)."
           rm -f "$target/.ocr-run-request.md"
+
+      - name: Build a compact visual contact sheet
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from PIL import Image, ImageOps, ImageDraw
+          from pathlib import Path
+          import base64, io
+          folder = Path("references/products/certificates")
+          files = sorted([p for p in folder.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png"}])
+          cell_w, cell_h, label_h, cols = 240, 300, 30, 4
+          rows = (len(files) + cols - 1) // cols
+          sheet = Image.new("RGB", (cols * cell_w, rows * (cell_h + label_h)), "#f3f0eb")
+          draw = ImageDraw.Draw(sheet)
+          for i, path in enumerate(files):
+              with Image.open(path) as source:
+                  im = ImageOps.contain(source.convert("RGB"), (cell_w - 12, cell_h - 12))
+              x, y = (i % cols) * cell_w, (i // cols) * (cell_h + label_h)
+              sheet.paste(im, (x + (cell_w-im.width)//2, y + (cell_h-im.height)//2))
+              draw.text((x + 8, y + cell_h + 5), path.name, fill="#29231d")
+          out = io.BytesIO()
+          sheet.save(out, format="JPEG", quality=58, optimize=True)
+          encoded = base64.b64encode(out.getvalue()).decode("ascii")
+          Path("/tmp/contact-sheet-base64.txt").write_text(encoded)
+          Path("/tmp/contact-sheet-info.txt").write_text(f"files={len(files)}\\nsize={sheet.size}\\nbytes={len(out.getvalue())}\\n")
+          print(Path("/tmp/contact-sheet-info.txt").read_text())
+          PY
+          cp /tmp/contact-sheet-base64.txt references/products/certificates/VISUAL_CONTACT_SHEET_BASE64.txt
 
       - name: Commit extracted text to this branch
         env:
