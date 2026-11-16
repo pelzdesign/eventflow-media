@@ -7,6 +7,11 @@ on:
       - chore/certificate-reference-ocr
     paths:
       - "references/products/certificates/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "references/products/certificates/**"
 
 permissions:
   contents: write
@@ -23,7 +28,7 @@ jobs:
       - name: Check out media library
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
       - name: Install free OCR engine and language data
         run: |
@@ -75,7 +80,7 @@ jobs:
 
       - name: Commit extracted text to this branch
         env:
-          GH_TOKEN: ${{ github.token }}
+          TARGET_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -83,5 +88,5 @@ jobs:
           git add -A references/products/certificates/OCR_EXTRACTION.md references/products/certificates/.ocr-run-request.md
           if ! git diff --cached --quiet; then
             git commit -m "Add OCR extraction for certificate references"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+            git push origin "HEAD:${TARGET_BRANCH}"
           fi
