@@ -17,3 +17,7 @@ The approved visual storyboard for the first New Year fairytale template is docu
 ## Visual decomposition
 
 The production breakdown of scenes into reusable backgrounds, layers, objects, effects, interface elements, and responsive variants is documented in [NEW_YEAR_FAIRYTALE_DECOMPOSITION.md](./NEW_YEAR_FAIRYTALE_DECOMPOSITION.md). This is a technical production plan, not approval of generated assets.
+
+## Free SVG/CSS prototype
+
+The first original responsive forest prototype is in [prototypes/forest-test.html](./prototypes/forest-test.html), with separate [desktop SVG](./prototypes/forest-desktop.svg) and [mobile SVG](./prototypes/forest-mobile.svg) compositions. It is a draft technical proof of concept, not approved final artwork.
