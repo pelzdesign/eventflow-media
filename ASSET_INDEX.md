@@ -170,9 +170,35 @@ Assign each numeric group to one product or template here before registering its
 | Group number | Product/template | State | Notes |
 |---|---|---|---|
 | `000000` | Shared library | Reserved | Materials not belonging to one specific product/template |
-
-No product/template groups have been assigned yet. The restored New Year fairytale scenario is a documentation brief, not a registered media asset; assign a product/template group when the first actual reference or reusable media file is registered.
+| `000001` | New Year — Fairytale invitation | Active | Product-specific source visual references; first registered group |
 
 ## 8. Index
 
-No binary visual references or reusable media files have been registered yet. The New Year fairytale scenario brief is documented at `references/products/new-year/fairytale/NEW_YEAR_STORY_SCENARIO.md`; it is a product-direction document, not a media asset record.
+### New Year — Fairytale invitation: source visual references
+
+All entries below are source references uploaded by the owner on 17 November 2026. They are registered as `reference`, version `0.1.0`, status `draft`. They are for visual analysis and direction-setting only, not production-ready assets.
+
+**Source:** [Pinterest board “Новогодние приглашения”](https://pin.it/3lML4kPnE) (the owner also supplied the board URL: https://ru.pinterest.com/pelzarkadiy/%D0%BD%D0%BE%D0%B2%D0%B3%D0%BE%D0%B4%D0%BD%D1%96%D0%B5-%D0%BF%D1%80%D0%B8%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D1%8F/). Individual Pinterest pin URLs and original creators have not been mapped to the uploaded files.
+
+**Rights/usage for every entry:** Pinterest source; original creator, license, and reuse permission are not verified. Use as inspiration/reference for analysis only. Do not copy, publish, redistribute, or use the source image in production without identifying the original source and confirming permission or a suitable license. A draft reference registration is not a rights clearance.
+
+| Asset ID | Title / visual content | Category and tags | Version / status | File |
+|---|---|---|---|---|
+| `EFM-000001AA` | Lit pine boughs framing a cool teal bokeh field | forest detail, foreground frame, warm lights, depth | 0.1.0 / draft | [0d8bc155ac08c20c74a3c0b3fea8947d.jpg](references/products/new-year/fairytale/0d8bc155ac08c20c74a3c0b3fea8947d.jpg) |
+| `EFM-000001AB` | Glowing crystalline snowflake on dark blue snow | magic detail, snowflake, particles, blue night | 0.1.0 / draft | [17478bf22418b836cea183c469d9ab7a.jpg](references/products/new-year/fairytale/17478bf22418b836cea183c469d9ab7a.jpg) |
+| `EFM-000001AC` | Ornamental fir-and-bauble border with open center | decorative frame, turquoise ornaments, gold, negative space | 0.1.0 / draft | [21737725ed98c2767d8248e982bd04fd.jpg](references/products/new-year/fairytale/21737725ed98c2767d8248e982bd04fd.jpg) |
+| `EFM-000001AD` | Wide snowy fir canopy with warm lights and open depth | forest canopy, wide composition, snow, bokeh | 0.1.0 / draft | [3dde6022de3a714166b6e9ee3dbbcf75.jpg](references/products/new-year/fairytale/3dde6022de3a714166b6e9ee3dbbcf75.jpg) |
+| `EFM-000001AE` | Close fir branch with warm amber bokeh | forest detail, shallow depth, warm highlights | 0.1.0 / draft | [538722df5f1dd57dc37199f4b8244687.jpg](references/products/new-year/fairytale/538722df5f1dd57dc37199f4b8244687.jpg) |
+| `EFM-000001AF` | Dark teal negative space framed by a lit pine branch | forest foreground, dark teal, composition space | 0.1.0 / draft | [5f85eecbd989d2c58787123d72a5dbae.jpg](references/products/new-year/fairytale/5f85eecbd989d2c58787123a5dbae.jpg) |
+| `EFM-000001AG` | Snowy branches framing a softly lit winter background | snowy forest, framing, warm bokeh, atmosphere | 0.1.0 / draft | [6615845dcacbe133d9a83d064b76c268.jpg](references/products/new-year/fairytale/6615845dcacbe133d9a83d064b76c268.jpg) |
+| `EFM-000001AH` | Snowy forest path with warm lights receding into depth | forest path, perspective, snow, depth, light | 0.1.0 / draft | [6ec52a42a80678c3ee1838a56a700034.jpg](references/products/new-year/fairytale/6ec52a42a80678c3ee1838a56a700034.jpg) |
+| `EFM-000001AI` | Vertical snowy path with glowing trees and soft focus | forest path, perspective, warm light, snow | 0.1.0 / draft | [77b9df82132a35652896c6fa33b8cc28.jpg](references/products/new-year/fairytale/77b9df82132a35652896c6fa33b8cc28.jpg) |
+| `EFM-000001AJ` | Pale icy clearing framed by snow and delicate branches | clearing mood, negative space, snowflakes, soft light | 0.1.0 / draft | [a23459f295876986cf98c195d8d06b89.jpg](references/products/new-year/fairytale/a23459f295876986cf98c195d8d06b89.jpg) |
+| `EFM-000001AK` | Deep navy snowflake field with golden light and snowy ground | magical night, snowflakes, gold, depth | 0.1.0 / draft | [b41fe77d774778bbf28a501a72d9ec9a.jpg](references/products/new-year/fairytale/b41fe77d774778bbf28a501a72d9ec9a.jpg) |
+| `EFM-000001AL` | Teal-lit fir branches and pinecones against vivid cyan | fir detail, pinecones, warm sparks, teal | 0.1.0 / draft | [c0d2572c622de5fdcb023e811887c563.jpg](references/products/new-year/fairytale/c0d2572c622de5fdcb023e811887c563.jpg) |
+| `EFM-000001AM` | Snowy park lane with lanterns and glowing trees | winter path, lanterns, perspective, snow | 0.1.0 / draft | [d14258739c1fb4b51570b291596987aa.jpg](references/products/new-year/fairytale/d14258739c1fb4b51570b291596987aa.jpg) |
+| `EFM-000001AN` | Dense dark fir texture with scattered golden lights | forest texture, dense branches, warm lights | 0.1.0 / draft | [e7f8bf9b7cd60a539fb6df3dbadaeab2.jpg](references/products/new-year/fairytale/e7f8bf9b7cd60a539fb6df3dbadaeab2.jpg) |
+| `EFM-000001AO` | Hanging gold stars over a deep blue glowing ground | magical decor, stars, gold, night, reflective ground | 0.1.0 / draft | [f726f284fefce4a977a3804c553247d2.jpg](references/products/new-year/fairytale/f726f284fefce4a977a3804c553247d2.jpg) |
+| `EFM-000001AP` | Snow-covered fir branches, red berries, and lanterns | enchanted forest, berries, lanterns, snow, depth | 0.1.0 / draft | [fdd58d29d119c34c9e337d60b3bbcc46.jpg](references/products/new-year/fairytale/fdd58d29d119c34c9e337d60b3bbcc46.jpg) |
+
+The agreed story scenario at `references/products/new-year/fairytale/NEW_YEAR_STORY_SCENARIO.md` remains a product-direction document, not a media asset.
