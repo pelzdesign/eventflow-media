@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" role="img" aria-label="Layered winter forest clearing, mobile composition">
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#07182d"/><stop offset=".55" stop-color="#183b5c"/><stop offset="1" stop-color="#9bb8ce"/></linearGradient>
+ <linearGradient id="snow" x2="0" y2="1"><stop stop-color="#e7f0f4"/><stop offset="1" stop-color="#91abc1"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#ffd58b" stop-opacity=".85"/><stop offset="1" stop-color="#ffbd61" stop-opacity="0"/></radialGradient>
+ <filter id="haze"><feGaussianBlur stdDeviation="17"/></filter>
+ <g id="fir"><path d="M0 0 -55 105 -28 99 -72 165 -36 155 -90 245 90 245 36 155 72 165 28 99 55 105Z"/><path d="M-11 230H11V310H-11Z" fill="#172a2d"/></g>
+</defs>
+<rect width="390" height="844" fill="url(#sky)"/>
+<ellipse cx="195" cy="420" rx="170" ry="110" fill="#a9c9dc" opacity=".16" filter="url(#haze)"/>
+<g fill="#17374a" opacity=".88"><use href="#fir" transform="translate(30 160) scale(.8)"/><use href="#fir" transform="translate(150 125) scale(.72)"/><use href="#fir" transform="translate(285 145) scale(.82)"/><use href="#fir" transform="translate(390 170) scale(.8)"/></g>
+<g fill="#0d2b35"><use href="#fir" transform="translate(-18 290) scale(1.15)"/><use href="#fir" transform="translate(120 270) scale(.9)"/><use href="#fir" transform="translate(300 275) scale(1.05)"/><use href="#fir" transform="translate(410 300) scale(1.1)"/></g>
+<g fill="#ffc875" opacity=".75"><circle cx="76" cy="390" r="9"/><circle cx="312" cy="370" r="10"/><circle cx="194" cy="330" r="5"/></g>
+<path d="M0 535Q80 500 155 530T300 520T390 535V844H0Z" fill="url(#snow)"/>
+<path d="M0 650Q100 605 195 645T390 630V844H0Z" fill="#dce8ee" opacity=".72"/>
+<g fill="#081e28"><use href="#fir" transform="translate(-42 470) scale(1.1)"/><use href="#fir" transform="translate(430 460) scale(1.15)"/></g>
+<g fill="#fff" opacity=".65"><circle cx="65" cy="90" r="2"/><circle cx="265" cy="115" r="2"/><circle cx="335" cy="245" r="1.5"/><circle cx="120" cy="700" r="2"/><circle cx="280" cy="760" r="2"/></g>
+</svg>
