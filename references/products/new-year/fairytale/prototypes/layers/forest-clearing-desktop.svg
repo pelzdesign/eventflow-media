@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"><defs>
+ <linearGradient id="night" x2="0" y2="1"><stop stop-color="#071525"/><stop offset=".5" stop-color="#15344c"/><stop offset="1" stop-color="#9bb8c9"/></linearGradient>
+ <linearGradient id="snow" x2="0" y2="1"><stop stop-color="#edf4f7"/><stop offset=".45" stop-color="#c8d9e4"/><stop offset="1" stop-color="#819daf"/></linearGradient>
+ <linearGradient id="fir" x2="0" y2="1"><stop stop-color="#28505a"/><stop offset=".55" stop-color="#12333b"/><stop offset="1" stop-color="#081d28"/></linearGradient>
+ <radialGradient id="warm"><stop stop-color="#ffd99a" stop-opacity=".8"/><stop offset="1" stop-color="#ffbf70" stop-opacity="0"/></radialGradient>
+ <filter id="blur"><feGaussianBlur stdDeviation="20"/></filter>
+ <g id="pine" fill="url(#fir)">
+  <path d="M0 0 C-10 35 -27 58 -48 83 L-24 79 C-47 111 -64 132 -83 157 L-51 151 C-82 193 -103 218 -126 250 L126 250 C103 218 82 193 51 151 L83 157 C64 132 47 111 24 79 L48 83 C27 58 10 35 0 0Z"/>
+  <path d="M-9 225H9V286H-9Z" fill="#142a2d"/>
+ </g>
+ <g id="snowpine" fill="#dce9ee" opacity=".78">
+  <path d="M0 0 C-10 35 -27 58 -48 83 L-24 79 C-47 111 -64 132 -83 157 L-51 151 C-82 193 -103 218 -126 250 L126 250 C103 218 82 193 51 151 L83 157 C64 132 47 111 24 79 L48 83 C27 58 10 35 0 0Z" />
+ </g>
+</defs>
+<path d="M0 610 Q170 560 350 610 T720 600 T1100 600 T1440 575 V900 H0Z" fill="url(#snow)"/>
+<path d="M0 720 Q190 655 390 710 T780 690 T1160 700 T1440 660 V900 H0Z" fill="#e7f0f4" opacity=".88"/>
+<path d="M520 900 Q610 790 680 715 Q720 680 760 715 Q835 790 920 900Z" fill="#d0e0e9" opacity=".52"/>
+<path d="M0 830 Q230 760 430 825 T850 810 T1250 820 T1440 790" fill="none" stroke="#f8fbfc" stroke-width="5" opacity=".55"/>
+<g fill="#f8fbfc" opacity=".9"><path d="M0 604q60 -52 120 0q55 -40 105 10q-100 28 -225 12Z"/><path d="M1230 592q70 -60 120 0q45 -38 90 0v40q-100 -22 -210 -40Z"/></g></svg>
