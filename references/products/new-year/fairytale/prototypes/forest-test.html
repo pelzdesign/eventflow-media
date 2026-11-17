@@ -1,3 +1,26 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EventFlow forest composition test</title><style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#07182d;color:#eaf2f7;font:14px system-ui}main{min-height:100vh;display:grid;place-items:center;padding:24px}.stage{width:min(100%,1100px);aspect-ratio:16/10;position:relative;overflow:hidden;border:1px solid #456;border-radius:12px;isolation:isolate;background:#102b42}.stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.far{animation:drift 34s ease-in-out infinite alternate;transform-origin:center}.near{animation:near 24s ease-in-out infinite alternate}.snow{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(2px 2px at 12% 20%,#fff9 50%,transparent 60%),radial-gradient(1px 1px at 68% 38%,#fff9 50%,transparent 60%),radial-gradient(2px 2px at 83% 76%,#fff8 50%,transparent 60%);background-size:170px 190px,230px 260px,310px 280px;animation:fall 16s linear infinite}.note{position:fixed;bottom:10px;left:12px;color:#cbd9e3a8;font-size:11px}@keyframes drift{to{transform:scale(1.055) translateY(-1.2%)}}@keyframes near{to{transform:scale(1.09) translateY(1%)}}@keyframes fall{to{background-position:0 190px,0 260px,0 280px}}@media(max-width:600px){main{padding:0}.stage{width:100vw;height:100svh;aspect-ratio:auto;border:0;border-radius:0}.stage img{content:url('forest-mobile.svg')}.note{display:none}}
-</style><main><section class="stage"><img class="far" src="forest-desktop.svg" alt=""><div class="snow"></div></section></main><div class="note">Draft technical prototype — procedural vector artwork, not an approved final visual asset.</div></html>
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EventFlow — forest layers prototype</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#071525;color:#e8f1f5;font:14px/1.5 system-ui,sans-serif}
+header{max-width:1100px;margin:24px auto 12px;padding:0 20px}h1{font-size:20px;margin:0 0 4px}p{margin:0;color:#aebfca}
+main{max-width:1100px;margin:auto;padding:12px 20px 30px}.stage{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;border-radius:12px;background:#102d40;isolation:isolate;box-shadow:0 18px 55px #0006}
+.layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}.far{animation:far 38s ease-in-out infinite alternate}.mid{animation:mid 30s ease-in-out infinite alternate}.near{animation:near 25s ease-in-out infinite alternate}
+.snow{position:absolute;inset:-10%;pointer-events:none;background-image:radial-gradient(2px 2px at 12% 20%,#fff9 50%,transparent 60%),radial-gradient(1.5px 1.5px at 68% 38%,#fff9 50%,transparent 60%),radial-gradient(2px 2px at 83% 76%,#fff8 50%,transparent 60%);background-size:170px 190px,230px 260px,310px 280px;animation:snow 18s linear infinite}
+@keyframes far{to{transform:scale(1.035) translateY(-.5%)}}@keyframes mid{to{transform:scale(1.055) translateY(.4%)}}@keyframes near{to{transform:scale(1.08) translateY(1%)}}@keyframes snow{to{background-position:0 190px,0 260px,0 280px}}
+footer{max-width:1100px;margin:10px auto 30px;padding:0 20px;color:#9aabb7;font-size:12px}
+@media(max-width:600px){header{margin:16px auto 8px}main{padding:8px 0 20px}.stage{width:100vw;height:calc(100svh - 105px);aspect-ratio:auto;border-radius:0}.layer{content:initial}.desktop{display:none}.mobile{display:block}footer{padding:0 14px}}
+@media(min-width:601px){.mobile{display:none}}
+@media(prefers-reduced-motion:reduce){.layer,.snow{animation:none}}
+</style></head><body>
+<header><h1>Лесная поляна — слоёный SVG-прототип</h1><p>Четыре независимых плана. Отдельные композиции для широкого и вертикального экрана.</p></header>
+<main><section class="stage" aria-label="Анимированная зимняя лесная поляна">
+<img class="layer desktop far" src="layers/forest-far-desktop.svg" alt="">
+<img class="layer desktop mid" src="layers/forest-mid-desktop.svg" alt="">
+<img class="layer desktop" src="layers/forest-clearing-desktop.svg" alt="">
+<img class="layer desktop near" src="layers/forest-near-desktop.svg" alt="">
+<img class="layer mobile far" src="layers/forest-far-mobile.svg" alt="">
+<img class="layer mobile mid" src="layers/forest-mid-mobile.svg" alt="">
+<img class="layer mobile" src="layers/forest-clearing-mobile.svg" alt="">
+<img class="layer mobile near" src="layers/forest-near-mobile.svg" alt="">
+<div class="snow"></div></section></main>
+<footer>Технический draft. Векторные слои созданы вручную; графика требует дальнейшей художественной проработки и не является утверждённым production-ассетом.</footer></body></html>
