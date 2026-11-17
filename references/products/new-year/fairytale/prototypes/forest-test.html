@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EventFlow — forest layers prototype</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#071525;color:#e8f1f5;font:14px/1.5 system-ui,sans-serif}
+header{max-width:1100px;margin:24px auto 12px;padding:0 20px}h1{font-size:20px;margin:0 0 4px}p{margin:0;color:#aebfca}
+main{max-width:1100px;margin:auto;padding:12px 20px 30px}.stage{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;border-radius:12px;background:#102d40;isolation:isolate;box-shadow:0 18px 55px #0006}
+.layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}.far{animation:far 38s ease-in-out infinite alternate}.mid{animation:mid 30s ease-in-out infinite alternate}.near{animation:near 25s ease-in-out infinite alternate}
+.snow{position:absolute;inset:-10%;pointer-events:none;background-image:radial-gradient(2px 2px at 12% 20%,#fff9 50%,transparent 60%),radial-gradient(1.5px 1.5px at 68% 38%,#fff9 50%,transparent 60%),radial-gradient(2px 2px at 83% 76%,#fff8 50%,transparent 60%);background-size:170px 190px,230px 260px,310px 280px;animation:snow 18s linear infinite}
+@keyframes far{to{transform:scale(1.035) translateY(-.5%)}}@keyframes mid{to{transform:scale(1.055) translateY(.4%)}}@keyframes near{to{transform:scale(1.08) translateY(1%)}}@keyframes snow{to{background-position:0 190px,0 260px,0 280px}}
+footer{max-width:1100px;margin:10px auto 30px;padding:0 20px;color:#9aabb7;font-size:12px}
+@media(max-width:600px){header{display:none}main{padding:0}.stage{width:100vw;height:100svh;aspect-ratio:auto;border-radius:0}.layer{content:initial}.desktop{display:none}.mobile{display:block}footer{display:none}}
+@media(min-width:601px){.mobile{display:none}}
+@media(prefers-reduced-motion:reduce){.layer,.snow{animation:none}}
+</style></head><body>
+<header><h1>Лесная поляна — слоёный SVG-прототип</h1><p>Четыре независимых плана. Отдельные композиции для широкого и вертикального экрана.</p></header>
+<main><section class="stage" aria-label="Анимированная зимняя лесная поляна">
+<img class="layer desktop far" src="layers/forest-far-desktop.svg" alt="">
+<img class="layer desktop mid" src="layers/forest-mid-desktop.svg" alt="">
+<img class="layer desktop" src="layers/forest-clearing-desktop.svg" alt="">
+<img class="layer desktop near" src="layers/forest-near-desktop.svg" alt="">
+<img class="layer mobile far" src="layers/forest-far-mobile.svg" alt="">
+<img class="layer mobile mid" src="layers/forest-mid-mobile.svg" alt="">
+<img class="layer mobile" src="layers/forest-clearing-mobile.svg" alt="">
+<img class="layer mobile near" src="layers/forest-near-mobile.svg" alt="">
+<div class="snow"></div></section></main>
+<footer>Технический draft. Векторные слои созданы вручную; графика требует дальнейшей художественной проработки и не является утверждённым production-ассетом.</footer></body></html>
