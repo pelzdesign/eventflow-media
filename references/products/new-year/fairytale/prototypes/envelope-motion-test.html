@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EventFlow — тест левитации конверта</title>
+<style>
+:root{color-scheme:dark;--float-distance:14px;--float-duration:4.8s;--envelope-width:clamp(240px,38%,560px)}
+*{box-sizing:border-box}
+body{margin:0;background:#0b1420;color:#f4f0e8;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{max-width:1100px;margin:22px auto 12px;padding:0 20px}
+h1{font-size:20px;margin:0 0 5px;font-weight:650}
+header p{margin:0;color:#b8c4ce}
+main{max-width:1100px;margin:auto;padding:12px 20px 28px}
+.stage{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;isolation:isolate;border-radius:14px;background:radial-gradient(ellipse at 50% 72%,#e8d5b2 0,#71889a 38%,#14283a 100%);box-shadow:0 18px 55px #0008}
+.stage.mobile{aspect-ratio:9/16;max-height:78svh;width:min(100%,440px);margin:auto}
+.forest{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-2}
+.stage:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#07111a18,#07111a08 55%,#07111a25);pointer-events:none;z-index:-1}
+.envelope{position:absolute;left:50%;top:52%;width:var(--envelope-width);max-width:76%;height:auto;max-height:72%;object-fit:contain;transform:translate(-50%,-50%);filter:drop-shadow(0 18px 22px #07111a55);transform-origin:50% 50%;will-change:transform,opacity}
+.stage.playing .envelope{animation:appear .9s cubic-bezier(.2,.8,.2,1) both,float var(--float-duration) ease-in-out .9s infinite}
+.stage.paused .envelope{animation-play-state:paused}
+@keyframes appear{from{opacity:0;transform:translate(-50%,-38%) scale(.92)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes float{0%,100%{transform:translate(-50%,-50%) translateY(calc(var(--float-distance)*-.5)) rotate(-.45deg)}50%{transform:translate(-50%,-50%) translateY(var(--float-distance)) rotate(.55deg)}}
+.snow{position:absolute;inset:-12%;pointer-events:none;opacity:.8;background-image:radial-gradient(2px 2px at 12% 20%,#fff9 50%,transparent 60%),radial-gradient(1.5px 1.5px at 68% 38%,#fff9 50%,transparent 60%),radial-gradient(2px 2px at 83% 76%,#fff8 50%,transparent 60%);background-size:170px 190px,230px 260px,310px 280px;animation:snow 18s linear infinite}
+@keyframes snow{to{background-position:0 190px,0 260px,0 280px}}
+.controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px;padding:14px;background:#142231;border:1px solid #ffffff18;border-radius:12px}
+.control{display:flex;flex-direction:column;gap:6px;min-width:0}
+.control label{color:#c8d2da;font-size:12px}
+input[type=file]{width:100%;font-size:12px;color:#c8d2da}
+input[type=range]{width:100%;accent-color:#d6b879}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
+button{border:1px solid #ffffff30;border-radius:8px;padding:9px 13px;background:#26394b;color:#fff;font:inherit;cursor:pointer}
+button.primary{background:#b58c4c;color:#17130d;border-color:#b58c4c;font-weight:650}
+button:focus-visible,input:focus-visible{outline:2px solid #e7c98c;outline-offset:2px}
+.hint{max-width:1100px;margin:10px auto 28px;padding:0 20px;color:#9eacb8;font-size:12px}
+@media(max-width:680px){header{display:none}main{padding:0}.stage{width:100%;height:76svh;aspect-ratio:auto;border-radius:0}.stage.mobile{width:100%;height:82svh;max-height:none;border-radius:0}.controls{grid-template-columns:1fr 1fr;border-radius:0;margin:0}.hint{padding:12px 16px}}
+@media(prefers-reduced-motion:reduce){.snow,.stage.playing .envelope{animation:none!important}.envelope{opacity:1}}
+</style>
+</head>
+<body>
+<header><h1>Левитация конверта — интерактивный тест</h1><p>Локальный прототип: исходные изображения не отправляются на сервер. Никаких генераций и внешних библиотек.</p></header>
+<main>
+<section class="stage" id="stage" aria-label="Предпросмотр анимации конверта">
+<img class="forest" id="forest" alt="" hidden>
+<img class="envelope" id="envelope" alt="Конверт приглашения" hidden>
+<div class="snow" id="snow"></div>
+</section>
+<section class="controls" aria-label="Настройки теста">
+<div class="control"><label for="forestFile">Фон леса (JPG/PNG)</label><input id="forestFile" type="file" accept="image/png,image/jpeg,image/webp"></div>
+<div class="control"><label for="envelopeFile">Конверт (PNG с альфа-каналом)</label><input id="envelopeFile" type="file" accept="image/png,image/webp"></div>
+<div class="control"><label for="amplitude">Высота левитации: <output id="amplitudeValue">14 px</output></label><input id="amplitude" type="range" min="0" max="36" value="14"></div>
+<div class="control"><label for="speed">Скорость: <output id="speedValue">4.8 сек</output></label><input id="speed" type="range" min="3" max="9" step=".2" value="4.8"></div>
+<div class="control actions">
+<button class="primary" id="play">Запустить</button><button id="pause">Пауза</button><button id="reset">Сбросить</button>
+</div>
+<div class="control actions">
+<button id="toggleSnow">Снег: включён</button><button id="mobile">Проверить mobile</button>
+</div>
+<div class="control"><label for="size">Размер конверта: <output id="sizeValue">38%</output></label><input id="size" type="range" min="25" max="65" value="38"></div>
+<div class="control"><label>Подсказка</label><span style="color:#aebdca;font-size:12px">Выбери оба файла — фон и конверт. Затем нажми «Запустить».</span></div>
+</section>
+</main>
+<p class="hint">Это только демонстрация движения. Она не подключается к Production, RSVP или данным EventFlow. Для проверки на телефоне можно открыть этот HTML-файл в мобильном браузере после загрузки файлов на GitHub Pages либо передать сам HTML и изображения вместе.</p>
+<script>
+const stage=document.getElementById('stage'),forest=document.getElementById('forest'),envelope=document.getElementById('envelope'),snow=document.getElementById('snow');
+let forestUrl=null,envelopeUrl=null,snowOn=true,mobile=false;
+function loadImage(input,img,which){const file=input.files&&input.files[0];if(!file)return;const url=URL.createObjectURL(file);if(which==='forest'&&forestUrl)URL.revokeObjectURL(forestUrl);if(which==='envelope'&&envelopeUrl)URL.revokeObjectURL(envelopeUrl);if(which==='forest')forestUrl=url;else envelopeUrl=url;img.src=url;img.hidden=false;}
+document.getElementById('forestFile').addEventListener('change',e=>loadImage(e.target,forest,'forest'));
+document.getElementById('envelopeFile').addEventListener('change',e=>loadImage(e.target,envelope,'envelope'));
+document.getElementById('play').addEventListener('click',()=>{stage.classList.remove('paused');stage.classList.remove('playing');void envelope.offsetWidth;stage.classList.add('playing')});
+document.getElementById('pause').addEventListener('click',()=>stage.classList.add('paused'));
+document.getElementById('reset').addEventListener('click',()=>{stage.classList.remove('playing','paused');envelope.style.opacity='1';envelope.style.transform='translate(-50%,-50%)'});
+document.getElementById('amplitude').addEventListener('input',e=>{stage.style.setProperty('--float-distance',e.target.value+'px');document.getElementById('amplitudeValue').textContent=e.target.value+' px'});
+document.getElementById('speed').addEventListener('input',e=>{stage.style.setProperty('--float-duration',e.target.value+'s');document.getElementById('speedValue').textContent=Number(e.target.value).toFixed(1)+' сек'});
+document.getElementById('size').addEventListener('input',e=>{stage.style.setProperty('--envelope-width',e.target.value+'%');document.getElementById('sizeValue').textContent=e.target.value+'%'});
+document.getElementById('toggleSnow').addEventListener('click',e=>{snowOn=!snowOn;snow.hidden=!snowOn;e.target.textContent='Снег: '+(snowOn?'включён':'выключен')});
+document.getElementById('mobile').addEventListener('click',e=>{mobile=!mobile;stage.classList.toggle('mobile',mobile);e.target.textContent=mobile?'Вернуть desktop':'Проверить mobile'});
+</script>
+</body>
+</html>
