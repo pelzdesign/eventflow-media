@@ -69,7 +69,7 @@ document.getElementById('forestFile').addEventListener('change',e=>loadImage(e.t
 document.getElementById('envelopeFile').addEventListener('change',e=>loadImage(e.target,envelope,'envelope'));
 document.getElementById('play').addEventListener('click',()=>{stage.classList.remove('paused');stage.classList.remove('playing');void envelope.offsetWidth;stage.classList.add('playing')});
 document.getElementById('pause').addEventListener('click',()=>stage.classList.add('paused'));
-document.getElementById('reset').addEventListener('click',()=>{stage.classList.remove('playing','paused');envelope.style.opacity='1';envelope.style.transform='translate(-50%,-50%)'});
+document.getElementById('reset').addEventListener('click',()=>{stage.classList.remove('playing','paused');envelope.style.removeProperty('opacity');envelope.style.removeProperty('transform')});
 document.getElementById('amplitude').addEventListener('input',e=>{stage.style.setProperty('--float-distance',e.target.value+'px');document.getElementById('amplitudeValue').textContent=e.target.value+' px'});
 document.getElementById('speed').addEventListener('input',e=>{stage.style.setProperty('--float-duration',e.target.value+'s');document.getElementById('speedValue').textContent=Number(e.target.value).toFixed(1)+' сек'});
 document.getElementById('size').addEventListener('input',e=>{stage.style.setProperty('--envelope-width',e.target.value+'%');document.getElementById('sizeValue').textContent=e.target.value+'%'});
