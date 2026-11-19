@@ -21,3 +21,7 @@ The production breakdown of scenes into reusable backgrounds, layers, objects, e
 ## Free SVG/CSS prototype
 
 The first original responsive forest prototype is in [prototypes/forest-test.html](./prototypes/forest-test.html). It now composes four independently animated SVG planes (far forest, middle forest, clearing, foreground framing), with separate desktop and mobile variants in [prototypes/layers/](./prototypes/layers/). Earlier single-canvas drafts are retained for comparison. It is a draft technical proof of concept, not approved final artwork.
+
+## Envelope motion prototype
+
+A standalone local-browser test for the generated transparent envelope is available at [prototypes/envelope-motion-test.html](./prototypes/envelope-motion-test.html). It loads the forest background and envelope through local file pickers, then previews CSS-based levitation without AI video generation or external animation libraries. This is an experimental interaction prototype, not production integration.
