@@ -170,9 +170,49 @@ Assign each numeric group to one product or template here before registering its
 | Group number | Product/template | State | Notes |
 |---|---|---|---|
 | `000000` | Shared library | Reserved | Materials not belonging to one specific product/template |
+| `000001` | New Year fairytale template | Active | Product-specific visual materials for the interactive New Year fairytale invitation |
 
-No product/template groups have been assigned yet. The restored New Year fairytale scenario is a documentation brief, not a registered media asset; assign a product/template group when the first actual reference or reusable media file is registered.
+Group `000001` is assigned to the New Year fairytale template. The scenario brief remains a documentation brief, not a media asset.
 
 ## 8. Index
 
-No binary visual references or reusable media files have been registered yet. The New Year fairytale scenario brief is documented at `references/products/new-year/fairytale/NEW_YEAR_STORY_SCENARIO.md`; it is a product-direction document, not a media asset record.
+### New Year fairytale template — group `000001`
+
+#### EFM-000001AA — Snowflake 01
+- **Material type:** asset
+- **Category:** particle / snow
+- **Style/tags:** pale blue-silver, crystalline, transparent PNG, falling particle
+- **Source:** Owner-provided image generated in Google Flow; separated and processed locally from a four-item source sheet.
+- **Rights/usage:** Owner-provided generated material. Reuse is subject to the applicable Google Flow terms; no independent license is asserted here.
+- **Version 1.0.0:** `approved` — 2026-11-22. Owner visually reviewed and approved the extracted PNG.
+- **File variants:** PNG with alpha channel — `references/products/new-year/fairytale/experiments/02-snowflakes/snowflake-01.png`
+
+#### EFM-000001AB — Snowflake 02
+- **Material type:** asset
+- **Category:** particle / snow
+- **Style/tags:** pale blue-silver, crystalline, transparent PNG, falling particle
+- **Source:** Owner-provided image generated in Google Flow; separated and processed locally from a four-item source sheet.
+- **Rights/usage:** Owner-provided generated material. Reuse is subject to the applicable Google Flow terms; no independent license is asserted here.
+- **Version 1.0.0:** `approved` — 2026-11-22. Owner visually reviewed and approved the extracted PNG.
+- **File variants:** PNG with alpha channel — `references/products/new-year/fairytale/experiments/02-snowflakes/snowflake-02.png`
+
+#### EFM-000001AC — Snowflake 03
+- **Material type:** asset
+- **Category:** particle / snow
+- **Style/tags:** pale blue-silver, crystalline, transparent PNG, falling particle
+- **Source:** Owner-provided image generated in Google Flow; separated and processed locally from a four-item source sheet.
+- **Rights/usage:** Owner-provided generated material. Reuse is subject to the applicable Google Flow terms; no independent license is asserted here.
+- **Version 1.0.0:** `approved` — 2026-11-22. Owner visually reviewed and approved the extracted PNG.
+- **File variants:** PNG with alpha channel — `references/products/new-year/fairytale/experiments/02-snowflakes/snowflake-03.png`
+
+#### EFM-000001AD — Snowflake 04
+- **Material type:** asset
+- **Category:** particle / snow
+- **Style/tags:** pale blue-silver, crystalline, transparent PNG, falling particle
+- **Source:** Owner-provided image generated in Google Flow; separated and processed locally from a four-item source sheet.
+- **Rights/usage:** Owner-provided generated material. Reuse is subject to the applicable Google Flow terms; no independent license is asserted here.
+- **Version 1.0.0:** `approved` — 2026-11-22. Owner visually reviewed and approved the extracted PNG.
+- **File variants:** PNG with alpha channel — `references/products/new-year/fairytale/experiments/02-snowflakes/snowflake-04.png`
+
+The original source sheet and the local processing utility are retained alongside the extracted materials for provenance and repeatable processing.
+
