@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EventFlow — тест левитации конверта и снега</title>
+<style>
+:root{color-scheme:dark;--float-distance:14px;--float-duration:4.8s;--envelope-width:clamp(240px,38%,560px);--flake-density:34}
+*{box-sizing:border-box}
+body{margin:0;background:#0b1420;color:#f4f0e8;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{max-width:1100px;margin:22px auto 12px;padding:0 20px}
+h1{font-size:20px;margin:0 0 5px;font-weight:650}
+header p{margin:0;color:#b8c4ce}
+main{max-width:1100px;margin:auto;padding:12px 20px 28px}
+.stage{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;isolation:isolate;border-radius:14px;background:radial-gradient(ellipse at 50% 72%,#e8d5b2 0,#71889a 38%,#14283a 100%);box-shadow:0 18px 55px #0008}
+.stage.mobile{aspect-ratio:9/16;max-height:78svh;width:min(100%,440px);margin:auto}
+.forest{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-2}
+.stage:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#07111a18,#07111a08 55%,#07111a25);pointer-events:none;z-index:6}
+.envelope{position:absolute;left:50%;top:52%;width:var(--envelope-width);max-width:76%;height:auto;max-height:72%;object-fit:contain;transform:translate(-50%,-50%);filter:drop-shadow(0 18px 22px #07111a55);transform-origin:50% 50%;will-change:transform,opacity;z-index:4}
+.stage.playing .envelope{animation:appear .9s cubic-bezier(.2,.8,.2,1) both,float var(--float-duration) ease-in-out .9s infinite}
+.stage.paused .envelope{animation-play-state:paused}
+@keyframes appear{from{opacity:0;transform:translate(-50%,-38%) scale(.92)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes float{0%,100%{transform:translate(-50%,-50%) translateY(calc(var(--float-distance)*-.5)) rotate(-.45deg)}50%{transform:translate(-50%,-50%) translateY(var(--float-distance)) rotate(.55deg)}}
+.snow-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.snow-layer.far{z-index:1;filter:blur(.5px)}
+.snow-layer.mid{z-index:2}
+.snow-layer.near{z-index:5}
+.flake{position:absolute;top:-16%;left:var(--x);width:var(--size);height:var(--size);opacity:var(--alpha);animation:flake-fall var(--duration) linear var(--delay) infinite;will-change:transform}
+.flake img{display:block;width:100%;height:100%;object-fit:contain;animation:flake-spin 24s linear infinite}
+@keyframes flake-fall{0%{transform:translate3d(0,-8vh,0)}50%{transform:translate3d(var(--drift),55vh,0)}100%{transform:translate3d(calc(var(--drift)*-.35),118vh,0)}}
+@keyframes flake-spin{to{transform:rotate(360deg)}}
+.controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px;padding:14px;background:#142231;border:1px solid #ffffff18;border-radius:12px}
+.control{display:flex;flex-direction:column;gap:6px;min-width:0}
+.control label{color:#c8d2da;font-size:12px}
+input[type=file]{width:100%;font-size:12px;color:#c8d2da}
+input[type=range]{width:100%;accent-color:#d6b879}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
+button{border:1px solid #ffffff30;border-radius:8px;padding:9px 13px;background:#26394b;color:#fff;font:inherit;cursor:pointer}
+button.primary{background:#b58c4c;color:#17130d;border-color:#b58c4c;font-weight:650}
+button:focus-visible,input:focus-visible{outline:2px solid #e7c98c;outline-offset:2px}
+.hint{max-width:1100px;margin:10px auto 28px;padding:0 20px;color:#9eacb8;font-size:12px}
+@media(max-width:680px){header{display:none}main{padding:0}.stage{width:100%;height:76svh;aspect-ratio:auto;border-radius:0}.stage.mobile{width:100%;height:82svh;max-height:none;border-radius:0}.controls{grid-template-columns:1fr 1fr;border-radius:0;margin:0}.hint{padding:12px 16px}}
+@media(prefers-reduced-motion:reduce){.flake,.flake img,.stage.playing .envelope{animation:none!important}.envelope{opacity:1}.flake{top:45%}}
+</style>
+</head>
+<body>
+<header><h1>Левитация конверта и снег — интерактивный тест</h1><p>Локальный прототип: изображения обрабатываются в браузере и не отправляются на сервер. Без внешних библиотек.</p></header>
+<main>
+<section class="stage" id="stage" aria-label="Предпросмотр анимации конверта и снегопада">
+<img class="forest" id="forest" alt="" hidden>
+<div class="snow-layer far" id="snowFar"></div><div class="snow-layer mid" id="snowMid"></div><div class="snow-layer near" id="snowNear"></div>
+<img class="envelope" id="envelope" alt="Конверт приглашения" hidden>
+</section>
+<section class="controls" aria-label="Настройки теста">
+<div class="control"><label for="forestFile">Фон леса (JPG/PNG)</label><input id="forestFile" type="file" accept="image/png,image/jpeg,image/webp"></div>
+<div class="control"><label for="envelopeFile">Конверт (PNG с альфа-каналом)</label><input id="envelopeFile" type="file" accept="image/png,image/webp"></div>
+<div class="control"><label for="flakeFiles">Четыре PNG снежинок (выбрать вместе)</label><input id="flakeFiles" type="file" accept="image/png" multiple></div>
+<div class="control"><label for="amplitude">Высота левитации: <output id="amplitudeValue">14 px</output></label><input id="amplitude" type="range" min="0" max="36" value="14"></div>
+<div class="control"><label for="speed">Скорость конверта: <output id="speedValue">4.8 сек</output></label><input id="speed" type="range" min="3" max="9" step=".2" value="4.8"></div>
+<div class="control actions"><button class="primary" id="play">Запустить</button><button id="pause">Пауза</button><button id="reset">Сбросить</button></div>
+<div class="control actions"><button id="toggleSnow">Снег: включён</button><button id="mobile">Проверить mobile</button></div>
+<div class="control"><label for="size">Размер конверта: <output id="sizeValue">38%</output></label><input id="size" type="range" min="25" max="65" value="38"></div>
+<div class="control"><label for="density">Интенсивность снега: <output id="densityValue">34</output></label><input id="density" type="range" min="0" max="90" value="34"></div>
+<div class="control"><label>Слои снега</label><span id="flakeStatus" style="color:#aebdca;font-size:12px">Загрузи четыре PNG, чтобы включить объёмные снежинки. До этого виден только процедурный тестовый снег.</span></div>
+</section>
+</main>
+<p class="hint">Для снежинок выбери сразу четыре файла snowflake-01.png — snowflake-04.png. Скрипт размножит их в трёх планах с разной глубиной, скоростью, размером, прозрачностью, дрейфом и вращением. Это демонстрация, не подключённая к Production, RSVP или данным EventFlow.</p>
+<script>
+const stage=document.getElementById('stage'),forest=document.getElementById('forest'),envelope=document.getElementById('envelope');
+const layers=[document.getElementById('snowFar'),document.getElementById('snowMid'),document.getElementById('snowNear')];
+let forestUrl=null,envelopeUrl=null,flakeUrls=[],snowOn=true,mobile=false,flakeCount=34;
+function loadImage(input,img,which){const file=input.files&&input.files[0];if(!file)return;const url=URL.createObjectURL(file);if(which==='forest'&&forestUrl)URL.revokeObjectURL(forestUrl);if(which==='envelope'&&envelopeUrl)URL.revokeObjectURL(envelopeUrl);if(which==='forest')forestUrl=url;else envelopeUrl=url;img.src=url;img.hidden=false;}
+document.getElementById('forestFile').addEventListener('change',e=>loadImage(e.target,forest,'forest'));
+document.getElementById('envelopeFile').addEventListener('change',e=>loadImage(e.target,envelope,'envelope'));
+function clearFlakes(){layers.forEach(layer=>layer.replaceChildren())}
+function renderFlakes(){clearFlakes();if(!flakeUrls.length||!snowOn||flakeCount===0)return;const counts=[Math.round(flakeCount*.35),Math.round(flakeCount*.4),Math.round(flakeCount*.25)];const settings=[{min:9,max:20,duration:[17,29],alpha:[.28,.55],blur:true},{min:15,max:31,duration:[11,21],alpha:[.48,.78]},{min:23,max:43,duration:[8,16],alpha:[.62,.95]}];
+layers.forEach((layer,depth)=>{for(let i=0;i<counts[depth];i++){const cfg=settings[depth],flake=document.createElement('span'),img=document.createElement('img');flake.className='flake';img.alt='';img.src=flakeUrls[Math.floor(Math.random()*flakeUrls.length)];const rnd=(a,b)=>a+Math.random()*(b-a);flake.style.setProperty('--x',rnd(0,100)+'%');flake.style.setProperty('--size',rnd(cfg.min,cfg.max)+'px');flake.style.setProperty('--alpha',rnd(...cfg.alpha).toFixed(2));flake.style.setProperty('--duration',rnd(...cfg.duration).toFixed(1)+'s');flake.style.setProperty('--delay',(-Math.random()*30).toFixed(1)+'s');flake.style.setProperty('--drift',rnd(-65,65).toFixed(0)+'px');img.style.setProperty('--spin',rnd(12,34).toFixed(1)+'s');img.style.animationDuration=rnd(12,34).toFixed(1)+'s';img.style.animationDelay=(-Math.random()*20).toFixed(1)+'s';flake.appendChild(img);layer.appendChild(flake)}})}
+document.getElementById('flakeFiles').addEventListener('change',e=>{flakeUrls.forEach(URL.revokeObjectURL);flakeUrls=Array.from(e.target.files||[]).sort((a,b)=>a.name.localeCompare(b.name)).map(URL.createObjectURL);document.getElementById('flakeStatus').textContent=flakeUrls.length?('Загружено файлов: '+flakeUrls.length+'. '+(flakeUrls.length===4?'Четыре формы готовы к использованию.':'Лучше выбрать все четыре PNG.')):'Файлы не выбраны';renderFlakes()});
+document.getElementById('play').addEventListener('click',()=>{stage.classList.remove('paused');stage.classList.remove('playing');void envelope.offsetWidth;stage.classList.add('playing')});
+document.getElementById('pause').addEventListener('click',()=>{stage.classList.add('paused');layers.forEach(l=>l.querySelectorAll('.flake,.flake img').forEach(el=>el.style.animationPlayState='paused'))});
+document.getElementById('reset').addEventListener('click',()=>{stage.classList.remove('playing','paused');envelope.style.removeProperty('opacity');envelope.style.removeProperty('transform');layers.forEach(l=>l.querySelectorAll('.flake,.flake img').forEach(el=>el.style.animationPlayState='running'))});
+document.getElementById('amplitude').addEventListener('input',e=>{stage.style.setProperty('--float-distance',e.target.value+'px');document.getElementById('amplitudeValue').textContent=e.target.value+' px'});
+document.getElementById('speed').addEventListener('input',e=>{stage.style.setProperty('--float-duration',e.target.value+'s');document.getElementById('speedValue').textContent=Number(e.target.value).toFixed(1)+' сек'});
+document.getElementById('size').addEventListener('input',e=>{stage.style.setProperty('--envelope-width',e.target.value+'%');document.getElementById('sizeValue').textContent=e.target.value+'%'});
+document.getElementById('toggleSnow').addEventListener('click',e=>{snowOn=!snowOn;e.target.textContent='Снег: '+(snowOn?'включён':'выключен');layers.forEach(l=>l.hidden=!snowOn);renderFlakes()});
+document.getElementById('density').addEventListener('input',e=>{flakeCount=Number(e.target.value);document.getElementById('densityValue').textContent=e.target.value;renderFlakes()});
+document.getElementById('mobile').addEventListener('click',e=>{mobile=!mobile;stage.classList.toggle('mobile',mobile);e.target.textContent=mobile?'Вернуть desktop':'Проверить mobile'});
+</script>
+</body>
+</html>

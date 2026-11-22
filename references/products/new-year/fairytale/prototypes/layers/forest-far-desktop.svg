@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"><defs>
+ <linearGradient id="night" x2="0" y2="1"><stop stop-color="#071525"/><stop offset=".5" stop-color="#15344c"/><stop offset="1" stop-color="#9bb8c9"/></linearGradient>
+ <linearGradient id="snow" x2="0" y2="1"><stop stop-color="#edf4f7"/><stop offset=".45" stop-color="#c8d9e4"/><stop offset="1" stop-color="#819daf"/></linearGradient>
+ <linearGradient id="fir" x2="0" y2="1"><stop stop-color="#28505a"/><stop offset=".55" stop-color="#12333b"/><stop offset="1" stop-color="#081d28"/></linearGradient>
+ <radialGradient id="warm"><stop stop-color="#ffd99a" stop-opacity=".8"/><stop offset="1" stop-color="#ffbf70" stop-opacity="0"/></radialGradient>
+ <filter id="blur"><feGaussianBlur stdDeviation="20"/></filter>
+ <g id="pine" fill="url(#fir)">
+  <path d="M0 0 C-10 35 -27 58 -48 83 L-24 79 C-47 111 -64 132 -83 157 L-51 151 C-82 193 -103 218 -126 250 L126 250 C103 218 82 193 51 151 L83 157 C64 132 47 111 24 79 L48 83 C27 58 10 35 0 0Z"/>
+  <path d="M-9 225H9V286H-9Z" fill="#142a2d"/>
+ </g>
+ <g id="snowpine" fill="#dce9ee" opacity=".78">
+  <path d="M0 0 C-10 35 -27 58 -48 83 L-24 79 C-47 111 -64 132 -83 157 L-51 151 C-82 193 -103 218 -126 250 L126 250 C103 218 82 193 51 151 L83 157 C64 132 47 111 24 79 L48 83 C27 58 10 35 0 0Z" />
+ </g>
+</defs>
+<rect width="1440" height="900" fill="url(#night)"/>
+<ellipse cx="720" cy="510" rx="650" ry="190" fill="#a9c8d8" opacity=".2" filter="url(#blur)"/>
+<path d="M0 510 Q210 330 430 480 T850 450 T1440 470 V900 H0Z" fill="#284b5b" opacity=".48"/>
+<g opacity=".78" fill="#183a49">
+ <use href="#pine" transform="translate(80 180) scale(.62)"/><use href="#pine" transform="translate(240 130) scale(.72)"/>
+ <use href="#pine" transform="translate(420 185) scale(.58)"/><use href="#pine" transform="translate(610 115) scale(.78)"/>
+ <use href="#pine" transform="translate(825 160) scale(.66)"/><use href="#pine" transform="translate(1020 115) scale(.76)"/>
+ <use href="#pine" transform="translate(1210 165) scale(.65)"/><use href="#pine" transform="translate(1390 145) scale(.72)"/>
+</g>
+<g fill="#f8fbff" opacity=".5"><circle cx="145" cy="110" r="2"/><circle cx="355" cy="75" r="1.5"/><circle cx="730" cy="130" r="2"/><circle cx="1110" cy="85" r="1.5"/><circle cx="1310" cy="220" r="2"/></g></svg>

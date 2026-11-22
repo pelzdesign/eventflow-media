@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" role="img" aria-label="Layered winter forest clearing, desktop composition">
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#07182d"/><stop offset=".58" stop-color="#183b5c"/><stop offset="1" stop-color="#9bb8ce"/></linearGradient>
+ <linearGradient id="snow" x2="0" y2="1"><stop stop-color="#e7f0f4"/><stop offset="1" stop-color="#91abc1"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#ffd58b" stop-opacity=".8"/><stop offset="1" stop-color="#ffbd61" stop-opacity="0"/></radialGradient>
+ <filter id="haze"><feGaussianBlur stdDeviation="24"/></filter><filter id="soft"><feGaussianBlur stdDeviation="8"/></filter>
+ <g id="fir"><path d="M0 0 -95 155 -49 146 -120 235 -62 221 -150 335 150 335 62 221 120 235 49 146 95 155Z"/><path d="M-17 315H17V430H-17Z" fill="#172a2d"/></g>
+</defs>
+<rect width="1440" height="900" fill="url(#sky)"/>
+<ellipse cx="720" cy="510" rx="540" ry="145" fill="#a9c9dc" opacity=".12" filter="url(#haze)"/>
+<g fill="#17374a" opacity=".84"><use href="#fir" transform="translate(90 190) scale(.72)"/><use href="#fir" transform="translate(250 150) scale(.82)"/><use href="#fir" transform="translate(430 185) scale(.7)"/><use href="#fir" transform="translate(610 145) scale(.9)"/><use href="#fir" transform="translate(820 180) scale(.72)"/><use href="#fir" transform="translate(1010 140) scale(.88)"/><use href="#fir" transform="translate(1220 170) scale(.78)"/><use href="#fir" transform="translate(1390 195) scale(.72)"/></g>
+<g fill="#0d2b35"><use href="#fir" transform="translate(-15 270) scale(1.2)"/><use href="#fir" transform="translate(190 300) scale(1.05)"/><use href="#fir" transform="translate(390 310) scale(.98)"/><use href="#fir" transform="translate(1090 300) scale(1.08)"/><use href="#fir" transform="translate(1290 275) scale(1.2)"/><use href="#fir" transform="translate(1460 290) scale(1.12)"/></g>
+<g fill="#ffc875" opacity=".75" filter="url(#soft)"><circle cx="300" cy="480" r="18"/><circle cx="510" cy="420" r="13"/><circle cx="930" cy="450" r="16"/><circle cx="1150" cy="410" r="12"/></g>
+<path d="M0 620Q220 565 420 620T850 615T1440 590V900H0Z" fill="url(#snow)"/>
+<path d="M0 720Q260 640 500 710T980 700T1440 680V900H0Z" fill="#dce8ee" opacity=".65"/>
+<g fill="#081e28"><use href="#fir" transform="translate(-40 510) scale(1.25)"/><use href="#fir" transform="translate(1480 500) scale(1.3)"/></g>
+<g fill="#f1f7fa" opacity=".85"><path d="M0 560Q45 510 95 565Q140 525 180 575Q115 600 0 595Z"/><path d="M1260 570Q1320 505 1370 565Q1415 530 1440 560V620Q1350 610 1260 570Z"/></g>
+<g><circle cx="180" cy="470" r="44" fill="url(#glow)"/><circle cx="180" cy="470" r="4" fill="#ffe0a2"/><circle cx="1260" cy="450" r="42" fill="url(#glow)"/><circle cx="1260" cy="450" r="4" fill="#ffe0a2"/></g>
+<g fill="#fff" opacity=".65"><circle cx="190" cy="105" r="2"/><circle cx="390" cy="170" r="2"/><circle cx="770" cy="90" r="2"/><circle cx="1280" cy="240" r="2"/><circle cx="340" cy="690" r="2"/><circle cx="860" cy="735" r="2"/><circle cx="1100" cy="680" r="2"/></g>
+</svg>
