@@ -11,12 +11,14 @@ body{margin:0;background:#0b1420;color:#f4f0e8;font:14px/1.5 system-ui,-apple-sy
 header{max-width:1100px;margin:22px auto 12px;padding:0 20px}
 h1{font-size:20px;margin:0 0 5px;font-weight:650}
 header p{margin:0;color:#b8c4ce}
-.branch{position:absolute;top:0;height:100%;width:66%;object-fit:contain;pointer-events:none;z-index:8;will-change:transform,opacity;filter:drop-shadow(0 8px 12px #07111a55)}
-.branch.left{left:0;object-position:left center}.branch.right{right:0;object-position:right center}
+.branch{position:absolute;top:50%;height:var(--branch-height,100%);width:auto;max-width:none;object-fit:contain;pointer-events:none;z-index:8;will-change:transform,opacity;filter:drop-shadow(0 8px 12px #07111a55)}
+.branch.left{left:var(--branch-inset,0%);object-position:left center;transform:translateY(-50%)}
+.branch.right{right:var(--branch-inset,0%);object-position:right center;transform:translateY(-50%)}
 .stage.revealing .branch.left{animation:branch-left 1.65s cubic-bezier(.22,.75,.18,1) forwards}
 .stage.revealing .branch.right{animation:branch-right 1.65s cubic-bezier(.22,.75,.18,1) forwards}
-@keyframes branch-left{0%{transform:translateX(0);opacity:1}72%{opacity:1}100%{transform:translateX(-105%);opacity:0}}
-@keyframes branch-right{0%{transform:translateX(0);opacity:1}72%{opacity:1}100%{transform:translateX(105%);opacity:0}}
+.stage.paused .branch{animation-play-state:paused}
+@keyframes branch-left{0%{transform:translate(0,-50%);opacity:1}72%{opacity:1}100%{transform:translate(-110%,-50%);opacity:0}}
+@keyframes branch-right{0%{transform:translate(0,-50%);opacity:1}72%{opacity:1}100%{transform:translate(110%,-50%);opacity:0}}
 .stage.revealed .branch{opacity:0;visibility:hidden}
 .stage.revealing:before{content:"";position:absolute;inset:0;z-index:7;pointer-events:none;background:radial-gradient(circle at center,#fff9 0,#fff3 18%,transparent 58%);animation:magic-flash 1.65s ease-out both}
 @keyframes magic-flash{0%,100%{opacity:0}35%{opacity:.9}}
@@ -38,7 +40,12 @@ main{max-width:1100px;margin:auto;padding:12px 20px 28px}
 .flake img{display:block;width:100%;height:100%;object-fit:contain;animation:flake-spin 24s linear infinite}
 @keyframes flake-fall{0%{transform:translate3d(0,-8vh,0)}50%{transform:translate3d(var(--drift),55vh,0)}100%{transform:translate3d(calc(var(--drift)*-.35),118vh,0)}}
 @keyframes flake-spin{to{transform:rotate(360deg)}}
-.controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px;padding:14px;background:#142231;border:1px solid #ffffff18;border-radius:12px}
+.controls{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+.tool-group{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:15px;background:#142231;border:1px solid #ffffff18;border-radius:12px}
+.group-title{grid-column:1/-1;margin:0 0 1px;color:#e7c98c;font-size:13px;font-weight:650;letter-spacing:.02em}
+.group-note{grid-column:1/-1;margin:-5px 0 2px;color:#9eacb8;font-size:11px}
+.control output{color:#f0dfbd;font-variant-numeric:tabular-nums}
+.control input[type=range]{margin-top:3px}
 .control{display:flex;flex-direction:column;gap:6px;min-width:0}
 .control label{color:#c8d2da;font-size:12px}
 input[type=file]{width:100%;font-size:12px;color:#c8d2da}
@@ -48,7 +55,7 @@ button{border:1px solid #ffffff30;border-radius:8px;padding:9px 13px;background:
 button.primary{background:#b58c4c;color:#17130d;border-color:#b58c4c;font-weight:650}
 button:focus-visible,input:focus-visible{outline:2px solid #e7c98c;outline-offset:2px}
 .hint{max-width:1100px;margin:10px auto 28px;padding:0 20px;color:#9eacb8;font-size:12px}
-@media(max-width:680px){header{display:none}main{padding:0}.stage{width:100%;height:76svh;aspect-ratio:auto;border-radius:0}.stage.mobile{width:100%;height:82svh;max-height:none;border-radius:0}.controls{grid-template-columns:1fr 1fr;border-radius:0;margin:0}.hint{padding:12px 16px}}
+@media(max-width:680px){header{display:none}main{padding:0 0 12px}.stage{width:100%;height:76svh;aspect-ratio:auto;border-radius:0}.stage.mobile{width:100%;height:82svh;max-height:none;border-radius:0}.tool-group{grid-template-columns:1fr 1fr;border-radius:0}.controls{gap:8px;margin-top:8px}.hint{padding:12px 16px}}
 @media(prefers-reduced-motion:reduce){.flake,.flake img,.stage.playing .envelope{animation:none!important}.envelope{opacity:1}.flake{top:45%}}
 </style>
 </head>
@@ -62,21 +69,41 @@ button:focus-visible,input:focus-visible{outline:2px solid #e7c98c;outline-offse
 <img class="branch left" id="branchLeft" alt="" hidden><img class="branch right" id="branchRight" alt="" hidden>
 </section>
 <section class="controls" aria-label="Настройки теста">
-<div class="control"><label for="forestFile">Фон леса (JPG/PNG)</label><input id="forestFile" type="file" accept="image/png,image/jpeg,image/webp"></div>
-<div class="control"><label for="envelopeFile">Конверт (PNG с альфа-каналом)</label><input id="envelopeFile" type="file" accept="image/png,image/webp"></div>
+<div class="tool-group">
+<h2 class="group-title">1. Изображения сцены</h2>
+<div class="control"><label for="forestFile">Фон поляны (JPG/PNG)</label><input id="forestFile" type="file" accept="image/png,image/jpeg,image/webp"></div>
 <div class="control"><label for="branchLeftFile">Левая еловая композиция (L)</label><input id="branchLeftFile" type="file" accept="image/png"></div>
 <div class="control"><label for="branchRightFile">Правая еловая композиция (R)</label><input id="branchRightFile" type="file" accept="image/png"></div>
-<div class="control"><label for="flakeFiles">Четыре PNG снежинок (выбрать вместе)</label><input id="flakeFiles" type="file" accept="image/png" multiple></div>
-<div class="control"><label for="amplitude">Высота левитации: <output id="amplitudeValue">14 px</output></label><input id="amplitude" type="range" min="0" max="36" value="14"></div>
-<div class="control"><label for="speed">Скорость конверта: <output id="speedValue">4.8 сек</output></label><input id="speed" type="range" min="3" max="9" step=".2" value="4.8"></div>
-<div class="control actions"><button class="primary" id="reveal">Открыть поляну</button><button id="play">Показать конверт</button><button id="pause">Пауза</button><button id="reset">Сбросить</button></div>
-<div class="control actions"><button id="toggleSnow">Снег: включён</button><button id="mobile">Проверить mobile</button></div>
+<div class="control"><label for="envelopeFile">Конверт (PNG с альфа-каналом)</label><input id="envelopeFile" type="file" accept="image/png,image/webp"></div>
+</div>
+<div class="tool-group">
+<h2 class="group-title">2. Еловые ветви — закрытый экран</h2>
+<p class="group-note">Настройки влияют на положение ветвей до нажатия «Открыть поляну».</p>
+<div class="control"><label for="branchHeight">Высота ветвей: <output id="branchHeightValue">100%</output></label><input id="branchHeight" type="range" min="70" max="150" value="100"></div>
+<div class="control"><label for="branchClose">Смыкание ветвей: <output id="branchCloseValue">0%</output></label><input id="branchClose" type="range" min="0" max="35" value="0"></div>
+<div class="control actions"><button id="resetBranches">Вернуть настройки ветвей</button></div>
+</div>
+<div class="tool-group">
+<h2 class="group-title">3. Конверт — размер и левитация</h2>
 <div class="control"><label for="size">Размер конверта: <output id="sizeValue">38%</output></label><input id="size" type="range" min="25" max="65" value="38"></div>
+<div class="control"><label for="amplitude">Высота левитации: <output id="amplitudeValue">14 px</output></label><input id="amplitude" type="range" min="0" max="36" value="14"></div>
+<div class="control"><label for="speed">Скорость покачивания: <output id="speedValue">4.8 сек</output></label><input id="speed" type="range" min="3" max="9" step=".2" value="4.8"></div>
+<div class="control actions"><button id="play">Показать конверт</button><button id="pause">Пауза</button></div>
+</div>
+<div class="tool-group">
+<h2 class="group-title">4. Снег</h2>
+<div class="control"><label for="flakeFiles">Четыре PNG снежинок (выбрать вместе)</label><input id="flakeFiles" type="file" accept="image/png" multiple></div>
 <div class="control"><label for="density">Интенсивность снега: <output id="densityValue">34</output></label><input id="density" type="range" min="0" max="90" value="34"></div>
-<div class="control"><label>Слои снега</label><span id="flakeStatus" style="color:#aebdca;font-size:12px">Загрузи четыре PNG, чтобы включить объёмные снежинки. До этого виден только процедурный тестовый снег.</span></div>
+<div class="control actions"><button id="toggleSnow">Снег: включён</button></div>
+<div class="control"><label>Загрузка снежинок</label><span id="flakeStatus" style="color:#aebdca;font-size:12px">Загрузи четыре PNG, чтобы включить объёмные снежинки.</span></div>
+</div>
+<div class="tool-group">
+<h2 class="group-title">5. Управление сценой</h2>
+<div class="control actions"><button class="primary" id="reveal">Открыть поляну</button><button id="reset">Сбросить сцену</button><button id="mobile">Проверить mobile</button></div>
+</div>
 </section>
 </main>
-<p class="hint">Загрузи фон, конверт, левую и правую еловые композиции. Нажми «Открыть поляну»: ветви разойдутся, затем автоматически появится конверт. Для снежинок выбери сразу четыре файла snowflake-01.png — snowflake-04.png. Скрипт размножит их в трёх планах с разной глубиной, скоростью, размером, прозрачностью, дрейфом и вращением. Это демонстрация, не подключённая к Production, RSVP или данным EventFlow.</p>
+<p class="hint">Загрузи фон, конверт, левую и правую еловые композиции. Нажми «Открыть поляну»: ветви разойдутся, затем автоматически появится конверт. Настраивай высоту и смыкание ветвей в группе «Еловые ветви», а размер и левитацию конверта — в отдельной группе. Для снежинок выбери сразу четыре файла snowflake-01.png — snowflake-04.png. Скрипт размножит их в трёх планах с разной глубиной, скоростью, размером, прозрачностью, дрейфом и вращением. Это демонстрация, не подключённая к Production, RSVP или данным EventFlow.</p>
 <script>
 const stage=document.getElementById('stage'),forest=document.getElementById('forest'),envelope=document.getElementById('envelope'),branchLeft=document.getElementById('branchLeft'),branchRight=document.getElementById('branchRight');
 const layers=[document.getElementById('snowFar'),document.getElementById('snowMid'),document.getElementById('snowNear')];
@@ -88,6 +115,9 @@ let branchLeftUrl=null,branchRightUrl=null;
 function loadBranch(input,img,side){const file=input.files&&input.files[0];if(!file)return;const url=URL.createObjectURL(file);if(side==='left'&&branchLeftUrl)URL.revokeObjectURL(branchLeftUrl);if(side==='right'&&branchRightUrl)URL.revokeObjectURL(branchRightUrl);if(side==='left')branchLeftUrl=url;else branchRightUrl=url;img.src=url;img.hidden=false;}
 document.getElementById('branchLeftFile').addEventListener('change',e=>loadBranch(e.target,branchLeft,'left'));
 document.getElementById('branchRightFile').addEventListener('change',e=>loadBranch(e.target,branchRight,'right'));
+document.getElementById('branchHeight').addEventListener('input',e=>{stage.style.setProperty('--branch-height',e.target.value+'%');document.getElementById('branchHeightValue').textContent=e.target.value+'%'});
+document.getElementById('branchClose').addEventListener('input',e=>{stage.style.setProperty('--branch-inset',e.target.value+'%');document.getElementById('branchCloseValue').textContent=e.target.value+'%'});
+document.getElementById('resetBranches').addEventListener('click',()=>{document.getElementById('branchHeight').value=100;document.getElementById('branchClose').value=0;stage.style.setProperty('--branch-height','100%');stage.style.setProperty('--branch-inset','0%');document.getElementById('branchHeightValue').textContent='100%';document.getElementById('branchCloseValue').textContent='0%';});
 function clearFlakes(){layers.forEach(layer=>layer.replaceChildren())}
 function renderFlakes(){clearFlakes();if(!flakeUrls.length||!snowOn||flakeCount===0)return;const counts=[Math.round(flakeCount*.35),Math.round(flakeCount*.4),Math.round(flakeCount*.25)];const settings=[{min:9,max:20,duration:[17,29],alpha:[.28,.55],blur:true},{min:15,max:31,duration:[11,21],alpha:[.48,.78]},{min:23,max:43,duration:[8,16],alpha:[.62,.95]}];
 layers.forEach((layer,depth)=>{for(let i=0;i<counts[depth];i++){const cfg=settings[depth],flake=document.createElement('span'),img=document.createElement('img');flake.className='flake';img.alt='';img.src=flakeUrls[Math.floor(Math.random()*flakeUrls.length)];const rnd=(a,b)=>a+Math.random()*(b-a);flake.style.setProperty('--x',rnd(0,100)+'%');flake.style.setProperty('--size',rnd(cfg.min,cfg.max)+'px');flake.style.setProperty('--alpha',rnd(...cfg.alpha).toFixed(2));flake.style.setProperty('--duration',rnd(...cfg.duration).toFixed(1)+'s');flake.style.setProperty('--delay',(-Math.random()*30).toFixed(1)+'s');flake.style.setProperty('--drift',rnd(-65,65).toFixed(0)+'px');img.style.setProperty('--spin',rnd(12,34).toFixed(1)+'s');img.style.animationDuration=rnd(12,34).toFixed(1)+'s';img.style.animationDelay=(-Math.random()*20).toFixed(1)+'s';flake.appendChild(img);layer.appendChild(flake)}})}
